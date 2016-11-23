@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html ng-app="myApp"><!--Initializing Angular App-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>Triangle Challenge</title>
+      <link href="assets/css/bootstrap.min.css" rel="stylesheet"><!-- Bootstrap CSS -->
+      <link href="assets/css/mystyle.css" rel="stylesheet"><!-- Custom CSS -->
+  </head>
+
+  <body ng-controller="mainController as ctrl">
+  <div class="jumbotron center">
+      <div class="container">
+          <h1>TRIANGLE CHALLENGE</h1>
+          <p>check if given Triangle is Equilateral, Isosceles or Scalene.</p>
+      </div>
+  </div>
+  <div class="container">
+      <form class="myform" method="post" ng-submit="checkTriangle()">
+          <label>Value of X:</label>
+          <input type="number" ng-model="ctrl.xVal" class="form-control" placeholder="Enter the length of X" required>
+          <label class="pad-top-10">Value of Y:</label>
+          <input type="number" ng-model="ctrl.yVal" class="form-control" placeholder="Enter the length of Y" required>
+          <label class="pad-top-10">Value of Z:</label>
+          <input type="number" ng-model="ctrl.zVal" class="form-control" placeholder="Enter the length of Z" required>
+          <div class="pad-top-10">
+              <button class="btn btn-md btn-primary btn-block" type="submit">SUBMIT</button>
+          </div>
+
+      </form>
+  </div>
+  <div class="jumbotron center">
+      <div class="container">
+          <h1>{{ result }} </h1>
+      </div>
+  </div>
+  <script src="assets/js/angular.min.js"></script><!-- Angular JS -->
+  <script>
+      var app = angular.module('myApp', []);
+
+      app.controller('mainController', function ($scope) {
+
+          $scope.result = 'Enter Values and Hit Submit';
+          $scope.ctrl = {xVal:'', yVal:'', zVal:''};
+
+          function isInt(n){
+              if(n>0)
+                  return Number(n) === n && n % 1 === 0;
+              else
+                  return false
+          }
+          //checkTriangle function which calls after user hit on Submit
+          $scope.checkTriangle = function () {
+
+              var x = Number($scope.ctrl.xVal);
+              var y = Number($scope.ctrl.yVal);
+              var z = Number($scope.ctrl.zVal);
+
+              //checking if length is empty or zero
+              if( (isInt(x) == false) || (isInt(y) == false) || (isInt(z) == false) ){
+                  $scope.result = 'Triangle lengths are Invalid !';
+              }
+              //checking if its a valid lengths for Triangle
+              else if( (x + y > z) & (x + z > y) & (y + z > x) ){
+
+                  //checking if all the lengths are same
+                  if(x == y & y == z){
+                      $scope.result = 'This is EQUILATERAL TRIANGLE !';
+                  }
+                  //checking if atleast 2 side lengths are same
+                  else if( (x == y) || (y == z) || (z == x) ){
+                      $scope.result = 'This is ISOSCELES TRIANGLE !';
+                  }
+                  //its a triangle but all lengths are different
+                  else {
+                      $scope.result = 'This is SCALENE TRIANGLE !';
+                  }
+              }
+              else {
+                  $scope.result = 'This is not a TRIANGLE !';
+              }
+
+          }
+      });
+  </script>
+  </body>
+</html>
